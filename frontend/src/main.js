@@ -8,9 +8,14 @@ import VueAxios from 'vue-axios'
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import { BButton } from "bootstrap-vue";
+import { BButton, BButtonGroup, FormPlugin, FormGroupPlugin, FormInputPlugin, CardPlugin } from "bootstrap-vue";
 
 createApp(App)
-  .use(VueAxios, axios)
-  .component('b-button', BButton)
-  .mount("#app");
+    .use(VueAxios, axios)
+    .use(FormPlugin)
+    .use(FormGroupPlugin)
+    .use(FormInputPlugin)
+    .use(CardPlugin)
+    .component('b-button-group', BButtonGroup)
+    .component('b-button', BButton)
+    .mount("#app");
