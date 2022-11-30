@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  database:
+    container_name: postgresql
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${PRISMA_USERNAME}
+      - POSTGRES_PASSWORD=${PRISMA_PASSWORD}
+      - POSTGRES_DB=${PRISMA_DATABASE}
+    volumes:
+      - ./tmp/pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  backend:
+    container_name: express
+    build:
+      context: ../backend
+    depends_on:
+      - database
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+  frontend:
+    container_name: vue
+    build:
+      context: ../frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
