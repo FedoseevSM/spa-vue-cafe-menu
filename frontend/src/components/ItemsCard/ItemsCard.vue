@@ -1,5 +1,6 @@
 <template>
-  <div v-for="item in items" :key="item.id">
+  <div class="row">
+  <div class="col-sm-4 p-1" v-for="item in items" :key="item.id">
     <b-card
       :title="item.title"
       :img-src="item.src"
@@ -16,6 +17,7 @@
       <b-button href="#" variant="primary">Иди куда-нибудь</b-button>
     </b-card>
   </div>
+</div>
 </template>
 
 <script>

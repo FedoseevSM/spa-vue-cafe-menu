@@ -6,11 +6,11 @@ import ItemsCard from "../../components/ItemsCard/ItemsCard.vue";
 
 <template>
   <CatMenu />
-  <div className="row">
-    <div className="col">
-        <ItemsCard />
+  <div class="row">
+    <div class="col-sm-8">
+      <ItemsCard />
     </div>
-    <div className="col">
+    <div class="col-sm-4">
       <PushForm />
     </div>
   </div>
