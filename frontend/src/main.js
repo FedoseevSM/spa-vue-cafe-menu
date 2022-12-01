@@ -2,8 +2,6 @@
 import { createApp } from "vue";
 import './style.css'
 import App from "./App.vue";
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
@@ -21,7 +19,6 @@ import {
  } from "bootstrap-vue";
 
 createApp(App)
-    .use(VueAxios, axios)
     .use(FormPlugin)
     .use(FormGroupPlugin)
     .use(FormInputPlugin)

@@ -1,4 +1,4 @@
-FROM node:16-buster-slim AS builder
+FROM node:16-alpine AS builder
 WORKDIR ./
 COPY *.json ./
 RUN npm install

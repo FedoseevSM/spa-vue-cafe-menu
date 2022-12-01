@@ -1,8 +1,8 @@
 version: "3.9"
 
 services:
-  database:
-    container_name: postgresql
+  postgres:
+    container_name: postgres
     image: postgres:15-alpine
     restart: always
     environment:
@@ -13,19 +13,24 @@ services:
       - ./tmp/pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-  backend:
-    container_name: express
+  server:
+    container_name: server
+    depends_on:
+      - postgres
     build:
       context: ../backend
-    depends_on:
-      - database
+    env_file:
+      - ../backend/.env
     restart: unless-stopped
     ports:
       - "8000:8000"
-  frontend:
-    container_name: vue
+  client:
+    container_name: client
     build:
       context: ../frontend
     restart: unless-stopped
     ports:
       - "80:80"
+networks:
+  default:
+    driver: bridge

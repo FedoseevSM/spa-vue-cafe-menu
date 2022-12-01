@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from "cors"
 import { PrismaClient } from '@prisma/client'
 
 const app = express()
@@ -6,11 +7,13 @@ const port = Number(process.env.PORT) || 8000
 
 const prisma = new PrismaClient()
 
+app.use(cors())
+
 async function main() {
   const newUser = await prisma.user.create({
     data: {
-      name: 'Alice',
-      email: 'qaz@prisma.io',
+      name: 'Alsicoew',
+      email: 'q2w@wma.io',
       posts: {
         create: {
           title: 'Hello World',
@@ -37,57 +40,57 @@ app.get('/users', async (req, res) => {
 })
 
 app.get('/feed', async (req, res) => {
-    const posts = await prisma.post.findMany({
-      where: { published: true },
-      include: { author: true }
-    })
-    res.json(posts)
+  const posts = await prisma.post.findMany({
+    where: { published: true },
+    include: { author: true }
   })
-  
-  app.get(`/post/:id`, async (req, res) => {
-    const { id } = req.params
-    const post = await prisma.post.findUnique({
-      where: { id: Number(id) },
-    })
-    res.json(post)
-  })
+  res.json(posts)
+})
 
-  app.post(`/user`, async (req, res) => {
-    const result = await prisma.user.create({
-      data: { ...req.body },
-    })
-    res.json(result)
+app.get(`/post/:id`, async (req, res) => {
+  const { id } = req.params
+  const post = await prisma.post.findUnique({
+    where: { id: Number(id) },
   })
-  
-  app.post(`/post`, async (req, res) => {
-    const { title, content, authorEmail } = req.body
-    const result = await prisma.post.create({
-      data: {
-        title,
-        content,
-        published: false,
-        author: { connect: { email: authorEmail } },
-      },
-    })
-    res.json(result)
-  })
+  res.json(post)
+})
 
-  app.put('/post/publish/:id', async (req, res) => {
-    const { id } = req.params
-    const post = await prisma.post.update({
-      where: { id: Number(id) },
-      data: { published: true },
-    })
-    res.json(post)
+app.post(`/user`, async (req, res) => {
+  const result = await prisma.user.create({
+    data: { ...req.body },
   })
-  
-  app.delete(`/post/:id`, async (req, res) => {
-    const { id } = req.params
-    const post = await prisma.post.delete({
-      where: { id: Number(id) },
-    })
-    res.json(post)
+  res.json(result)
+})
+
+app.post(`/post`, async (req, res) => {
+  const { title, content, authorEmail } = req.body
+  const result = await prisma.post.create({
+    data: {
+      title,
+      content,
+      published: false,
+      author: { connect: { email: authorEmail } },
+    },
   })
+  res.json(result)
+})
+
+app.put('/post/publish/:id', async (req, res) => {
+  const { id } = req.params
+  const post = await prisma.post.update({
+    where: { id: Number(id) },
+    data: { published: true },
+  })
+  res.json(post)
+})
+
+app.delete(`/post/:id`, async (req, res) => {
+  const { id } = req.params
+  const post = await prisma.post.delete({
+    where: { id: Number(id) },
+  })
+  res.json(post)
+})
 
 app.listen(port, () => {
   console.log(`Server started on port: ${port}`)
